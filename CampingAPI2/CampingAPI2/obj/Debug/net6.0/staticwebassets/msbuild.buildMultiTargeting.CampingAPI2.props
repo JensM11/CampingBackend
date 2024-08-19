@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\CampingAPI2.props" />
+</Project>
