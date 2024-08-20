@@ -11,5 +11,6 @@
         public int Capacity { get; set; }
         public int Price { get; set; }
         public bool IsAvailable { get; set; }
+        public string ClientEmail { get; set; }
     }
 }

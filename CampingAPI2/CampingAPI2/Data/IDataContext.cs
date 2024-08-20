@@ -19,6 +19,9 @@ namespace CampingAPI2.Data
         Task<IEnumerable<CampingSite>> GetCampingSitesByOwnerEmail(string ownerEmail);
         Task<bool> DeleteCampingSite(string Name);
         Task<IEnumerable<CampingSite>> GetAvailableSites();
+        Task<CampingSite> GetCampingSiteById(int id);
+        Task<bool> UpdateCampingSite(CampingSite campingSite);
+        Task<IEnumerable<CampingSite>> GetBookedSitesByClientEmail(string clientEmail);
 
     }
 }

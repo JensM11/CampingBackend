@@ -26,7 +26,14 @@ namespace CampingAPI2.Controllers
         public async Task<ActionResult<CampingSite>> CreateCampingSite(CampingSite campingspot)
         {
 
+            var owner = await _dataContext.GetOwnerByEmail(campingspot.OwnerEmail);
+            if (owner == null)
+            {
+                return BadRequest("Owner with the given email does not exist.");
+            }
+
             campingspot.IsAvailable = true;
+            campingspot.ClientEmail = "None";
 
             try
             {
@@ -48,8 +55,13 @@ namespace CampingAPI2.Controllers
         [HttpGet("{ownerEmail}")]
         public async Task<ActionResult<IEnumerable<CampingSite>>> GetCampingSitesByOwnerEmail(string ownerEmail)
         {
-            var campingsites = await _dataContext.GetCampingSitesByOwnerEmail(ownerEmail);
-            return Ok(campingsites);
+            var allCampingsites = await _dataContext.GetCampingSitesByOwnerEmail(ownerEmail);
+
+            // Separate available and booked sites
+            var availableSites = allCampingsites.Where(c => c.IsAvailable).ToList();
+            var bookedSites = allCampingsites.Where(c => !c.IsAvailable).ToList();
+
+            return Ok(new { AvailableSites = availableSites, BookedSites = bookedSites });
         }
 
         [HttpDelete("{name}")]
@@ -69,12 +81,52 @@ namespace CampingAPI2.Controllers
             }
         }
 
-        [HttpGet ("Available")]
+        [HttpGet("Available")]
         public async Task<ActionResult<IEnumerable<CampingSite>>> GetAvailableSites()
         {
-            // Get all camping sites where IsAvailable is true
             var campingsites = await _dataContext.GetAvailableSites();
             return Ok(campingsites);
         }
+
+        [HttpPost("book/{id}")]
+        public async Task<IActionResult> BookCampingSite(int id, [FromBody] BookingRequest request)
+        {
+            try
+            {
+                var campsite = await _dataContext.GetCampingSiteById(id);
+                if (campsite == null)
+                {
+                    return NotFound($"Camping spot with ID '{id}' not found");
+                }
+
+                if (!campsite.IsAvailable)
+                {
+                    return BadRequest("Camping spot is not available");
+                }
+
+                campsite.IsAvailable = false;
+                campsite.ClientEmail = request.ClientEmail; // Use the model property
+
+                var success = await _dataContext.UpdateCampingSite(campsite);
+                if (!success)
+                {
+                    return StatusCode(500, "Failed to update camping spot");
+                }
+
+                return Ok(campsite);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpGet("booked/{clientEmail}")]
+        public async Task<ActionResult<IEnumerable<CampingSite>>> GetBookedSitesByClientEmail(string clientEmail)
+        {
+            var campingsites = await _dataContext.GetBookedSitesByClientEmail(clientEmail);
+            return Ok(campingsites);
+        }
     }
+
+
 }

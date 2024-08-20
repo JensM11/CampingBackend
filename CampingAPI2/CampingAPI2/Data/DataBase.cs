@@ -134,5 +134,21 @@ namespace CampingAPI2.Data
 
             return null;
         }
+        public async Task<CampingSite> GetCampingSiteById(int id)
+        {
+            var campingsites = db.GetCollection<CampingSite>("CampingSites");
+            return campingsites.FindById(id);
+        }
+
+        public async Task<bool> UpdateCampingSite(CampingSite campingSite)
+        {
+            var campingsites = db.GetCollection<CampingSite>("CampingSites");
+            return campingsites.Update(campingSite);
+        }
+        public async Task<IEnumerable<CampingSite>> GetBookedSitesByClientEmail(string clientEmail)
+        {
+            var campingsites = db.GetCollection<CampingSite>("CampingSites");
+            return campingsites.Find(c => c.ClientEmail == clientEmail);
+        }
     }
 }
