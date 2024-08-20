@@ -38,3 +38,6 @@ C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\n
 C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\obj\Debug\net6.0\CampingAPI2.sourcelink.json
+C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\net6.0\SendGrid.dll
+C:\Users\jensm\OneDrive\School\Jaar4\PW\Exam\CampingAPI2\CampingAPI2\bin\Debug\net6.0\StarkbankEcdsa.dll
